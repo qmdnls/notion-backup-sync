@@ -3,7 +3,7 @@
 
 let axios = require('axios')
   , extract = require('extract-zip')
-  , { createWriteStream, mkdirSync, rmdirSync } = require('fs')
+  , { createWriteStream, mkdirSync, rmdirSync, unlinkSync } = require('fs')
   , { join } = require('path')
   , notionAPI = 'https://www.notion.so/api/v3'
   , { NOTION_TOKEN, NOTION_SPACE_ID } = process.env
@@ -90,6 +90,8 @@ async function run () {
   rmdirSync(htmlDir, { recursive: true });
   mkdirSync(htmlDir, { recursive: true });
   await extract(htmlFile, { dir: htmlDir });
+  unlinkSync(mdFile);
+  unlinkSync(htmlFile);
 }
 
 run();
